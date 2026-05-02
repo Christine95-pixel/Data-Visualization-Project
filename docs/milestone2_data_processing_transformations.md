@@ -402,4 +402,45 @@ print(f'Loaded: {df.shape[0]:,} rows × {df.shape[1]} columns')
 
 ---
 
+### Errors Encountered
+
+**Error 1- Invalid Value Check Failure.** 
+
+*Location* Quality Audit.
+- The error occured when the code attempted to compare non-numeric(string/object) columns with numeric values, which Pandas does not support.
+- This was because no type check was in place before performing numeric validation, causing the comparison to fail on non-numeric columns.
+  
+- *Fix Applied*- Added dtype checks `df[col].dtype` in `(['float64', 'int64'])` to ensure only numeric columns are validated.
+- *Outcome*- The corrected code now successfully:
+      + Checks for invalid values(negative populations, rates outside 0-100)
+      + Prints a summary table or confirmation message
+      + Outputs min/max statistics for numeric colimns to verify data ranges
+- Similar dtype-related errors were encountered win subsequent cells and resolved using the same type-check fix.
+
+**Error 2- Severity Index (Coefficient Issue)** 
+
+- Two instances were identified where the Severity Index produced faulty output affecting correlation analysis and modelling.
+- This was because the severity index was calculated by multiplying the quotient of the mortality rate and prevalence rate by a coefficient of **2**. This created a disproportionately large gap in the output, making the results  false and difficult to analyse.
+- *Fix Applied*- The coefficient was reduced from **2** to **1.5**, which produced a more manipulatable output with a variation that can be used in further analysis.
+
+**Error 3- File Size (Github Push Failure.)** 
+
+- After enriching the dataset, the file exceeded Github's size limit and could not be pushed.
+- *File Sizes*- Before compression: **223.5 MB**
+               - After Compression: **~75 MB**
+- *Fix Applied-* Compressed the file, the rewrote the git history, and used `--force` to push the package.
+- *Note:* The `--force` push rewites remote history. Team members may need to re-clone or reset their local branches.
+
+**Error 4- Notebook Corruption - Invalid JSON ( Caused by Error 3 fix )**
+
+*File Affected:* `milestone2_data_processing_transformation.ipynb`
+
+- The `--force` push and git history rewrite performed in error 3 corrupted the Jupyter Notebook, rendering it invalid JSON.
+- GitHub was unable to preview the notebook displaying
+    > **Invalid Notebook**
+    > "The Notebook Does Not Appear to Be Valid JSON"
+    > (nbformat v5.10.4, nbconvert v7.16.6)
+- The git history rewrite likely caused merge conflicts or incomplete file states that broke the notebook's JSON structure.
+- *Fix Applied:* Resolved through a trial-and-error approach targeting tyhe corrupted JSON. A **new branch** was created to safe;y apply corrections without further affecting the main branch.
+    >**Lesson Learned:** Force-pushing with rewritten history carries risk of filr corruption, especially for complex file formats like `.ipynb`. Future large file issues sshould consider Gir LFS (Large File Storage) as a safer alternative.  
 
