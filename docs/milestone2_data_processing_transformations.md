@@ -435,7 +435,7 @@ print(f'Loaded: {df.shape[0]:,} rows × {df.shape[1]} columns')
 
 *File Affected:* `milestone2_data_processing_transformation.ipynb`
 
-- `The `--force` push and git history rewrite performed in error 3 corrupted the Jupyter Notebook, rendering it invalid JSON.
+- The `--force` push and git history rewrite performed in error 3 corrupted the Jupyter Notebook, rendering it invalid JSON.
 - GitHub was unable to preview the notebook displaying
     > **Invalid Notebook**
     > "The Notebook Does Not Appear to Be Valid JSON"
